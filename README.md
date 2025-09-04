@@ -22,33 +22,33 @@ The application is a client-side single-page application (SPA) built with React.
 
 ```mermaid
 graph TD
-    A[User Interface (React + Tailwind CSS)] --> B{React Flow Canvas};
-    B -- Manages --> C[Nodes & Edges];
-    A -- Interacts with --> D[Toolbar & Panels];
-    D -- Triggers --> E[Workflow Execution Logic];
-    E -- Constructs Graph & Executes Nodes --> F[API Service (@google/genai)];
-    F -- Calls --> G[Google Gemini API];
-    G -- Returns AI Response --> F;
-    F -- Returns Result --> E;
-    E -- Updates --> H[Output Nodes on Canvas];
-
-    subgraph "Core Components"
-        B
-        C
-        D
+    subgraph "User Interface"
+        A[React UI / Tailwind CSS]
+        B{React Flow Canvas}
+        C[Nodes & Edges]
+        D[Toolbar & Panels]
+        H[Output Nodes on Canvas]
     end
 
-    subgraph "Business Logic"
-        E
+    subgraph "Application Logic"
+        E[Workflow Execution Engine]
+        F[API Service (@google/genai)]
     end
 
-    subgraph "Services"
-        F
+    subgraph "External Services"
+        G[Google Gemini API]
     end
 
-    subgraph "External API"
-        G
-    end
+    A -- Manages --> B
+    A -- Contains --> D
+    B -- Renders --> C
+    B -- Displays --> H
+    D -- Triggers --> E
+    E -- Executes Graph --> F
+    F -- Calls --> G
+    G -- Returns AI Response --> F
+    F -- Returns Result --> E
+    E -- Updates UI State --> H
 ```
 
 ## 🛠️ Tech Stack
