@@ -129,3 +129,7 @@ Follow these instructions to set up and run the project locally.
 
 5.  Open your browser and navigate to `http://localhost:5173` (or the URL provided by Vite).
 
+
+
+https://drive.google.com/file/d/1HLbZSvJ7xEf2Qkkdfmuu0BJ8owQKHZre/view?usp=sharing
+https://www.loom.com/share/f4c8355bdffa4d0dbfa29a8d490927cb?sid=00e313e7-6061-44bb-a71f-9c98cc075053
