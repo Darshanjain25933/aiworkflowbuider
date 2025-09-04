@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Workflow Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'gray': {
+                50: '#f8fafc',
+                100: '#f1f5f9',
+                200: '#e2e8f0',
+                300: '#cbd5e1',
+                400: '#94a3b8',
+                500: '#64748b',
+                600: '#475569',
+                700: '#334155',
+                800: '#1e293b',
+                900: '#0f172a',
+                950: '#020617',
+              },
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://aistudiocdn.com/reactflow@11.11.4/dist/style.css" />
+    <style>
+      /* Initial loading spinner styles */
+      #root:empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #loading-spinner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        color: #64748b; /* text-gray-500 */
+      }
+      .dark #loading-spinner {
+        color: #94a3b8; /* text-gray-400 */
+      }
+      .spinner {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #e2e8f0; /* border-gray-200 */
+        border-bottom-color: #4f46e5; /* border-indigo-600 */
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+      .dark .spinner {
+        border-color: #334155; /* dark:border-gray-700 */
+        border-bottom-color: #818cf8; /* dark:border-indigo-400 */
+      }
+      @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      /* Basic styles for React Flow */
+      .react-flow__pane {
+        cursor: grab;
+      }
+      .react-flow__pane:active {
+        cursor: grabbing;
+      }
+      .dark .react-flow__node {
+        color: #f1f5f9;
+        background: #1e293b;
+      }
+      .dark .react-flow__node.selected {
+        box-shadow: 0 0 0 2px #6366f1;
+      }
+      .dark .react-flow__edge-path {
+        stroke: #475569;
+      }
+      .dark .react-flow__controls button {
+        background: #1e293b;
+        border-bottom: 1px solid #334155;
+      }
+       .dark .react-flow__controls button:hover {
+        background: #334155;
+      }
+      .dark .react-flow__controls svg {
+        fill: #94a3b8;
+      }
+      .dark .react-flow__minimap {
+        background-color: #0f172a;
+      }
+      .dark .react-flow__minimap .react-flow__minimap-mask {
+        fill: rgba(30, 41, 59, 0.7);
+      }
+       /* Scrollbar styles for dark mode */
+      .dark ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background-color: #475569;
+        border-radius: 10px;
+        border: 2px solid #1e293b;
+      }
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background-color: #64748b;
+      }
+      /* Hide minimap and attribution by default, show on hover */
+      .react-flow__minimap, .react-flow__attribution {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none;
+      }
+      .react-flow-wrapper:hover .react-flow__minimap,
+      .react-flow-wrapper:hover .react-flow__attribution {
+        opacity: 1;
+        pointer-events: auto;
+      }
+       /* Style for dangling nodes */
+      @keyframes pulse-border {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.5); }
+        50% { box-shadow: 0 0 0 4px rgba(234, 179, 8, 0); }
+      }
+      .dangling-node {
+        animation: pulse-border 2s infinite;
+        border-color: rgba(234, 179, 8, 0.8) !important;
+      }
+      /* Shake animation for invalid run attempt */
+      @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+        40%, 60% { transform: translate3d(4px, 0, 0); }
+      }
+      .shake {
+        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.542.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-hot-toast": "https://aistudiocdn.com/react-hot-toast@^2.6.0",
+    "reactflow/": "https://aistudiocdn.com/reactflow@^11.11.4/",
+    "html-to-image": "https://aistudiocdn.com/html-to-image@^1.11.13",
+    "@reactflow/react": "https://aistudiocdn.com/reactflow@^11.11.4",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0",
+    "vite": "https://aistudiocdn.com/vite@^7.1.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.2"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-50 dark:bg-gray-950">
+    <div id="root">
+      <div id="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading AI Builder...</p>
+      </div>
+    </div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "AI Workflow Builder",
+  "description": "A powerful and intuitive web application for building, visualizing, and running AI-powered workflows. Drag and drop components, configure models, and interact with your AI through a seamless chat interface.",
+  "requestFramePermissions": []
+}
